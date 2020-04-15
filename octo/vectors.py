@@ -26,7 +26,7 @@ class Vector(object):
 
     @y.setter
     def y(self, value: float):
-        return self._array[1]
+        self._array[1] = value
 
     def __add__(self, other: 'Vector'):
         return self.__class__(*(self._array + other._array))
@@ -45,7 +45,7 @@ class Vector(object):
     def __neg__(self):
         return (-1) * self
 
-    def __div__(self, other: Union[int, float]):
+    def __truediv__(self, other: Union[int, float]):
         if isnumeric(other):
             return self * (1 / other)
         raise TypeError
@@ -142,3 +142,13 @@ class Vector(object):
 
     def copy(self):
         return self.__class__(*self._array)
+
+    @classmethod
+    def random(cls):
+        return cls(*(2 * (np.random.random(2) - 0.5))).normalize()
+
+    @classmethod
+    def from_angle(cls, angle):
+        vec = cls(0, 1)
+        vec.angle = angle
+        return vec

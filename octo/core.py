@@ -1,10 +1,10 @@
 import pyglet
 import __main__
-import builtins
 import octo
-
-builtins.width = 360
-builtins.height = 360
+import numpy as np
+from pyglet import gl
+# builtins.width = 360
+# builtins.height = 360
 
 
 def _dummy(*args, **kwargs):
@@ -14,7 +14,6 @@ def _dummy(*args, **kwargs):
 def run(sketch_setup=None, sketch_draw=None, sketch_update=None):
     if sketch_draw is not None:
         draw_method = sketch_draw
-    # elif hasattr(__main__, 'draw'):
     elif hasattr(__main__, 'draw'):
         draw_method = __main__.draw
     else:
@@ -34,20 +33,25 @@ def run(sketch_setup=None, sketch_draw=None, sketch_update=None):
     else:
         update_method = _dummy
 
-    
-    octo.window = pyglet.window.Window(width=builtins.width, height=builtins.height)
+    octo.window = pyglet.window.Window(
+        width=octo.WIDTH,
+        height=octo.HEIGHT,
+        visible=False
+    )
     octo.window.on_draw = draw_method
     pyglet.clock.schedule_interval(update_method, 1/120.0)
-    
+
     setup_method()
+    
+    octo.window.set_visible()
 
     pyglet.app.run()
 
 
 def size(width, height):
-    builtins.width = int(width)
-    builtins.height = int(height)
-    octo.window.set_size(builtins.width, builtins.height)
+    octo.WIDTH = int(width)
+    octo.HEIGHT = int(height)
+    octo.window.set_size(octo.WIDTH, octo.HEIGHT)
 
 
 def clear():

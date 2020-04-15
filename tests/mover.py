@@ -1,5 +1,5 @@
 from p5 import random_uniform, noise, constrain
-from octo import Vector, circle
+from octo import *
 from typing import Callable
 import numpy as np
 
@@ -22,7 +22,7 @@ class Mover(object):
     @classmethod
     def fromRandom(cls):
         return cls(
-            Vector(random_uniform(width), random_uniform(height)),
+            Vector(random_uniform(WIDTH), random_uniform(HEIGHT)),
             Vector(random_uniform(2, -2), random_uniform(2, -2)),
             Vector(random_uniform(0.01, -0.01), random_uniform(0.01, -0.01))
         )
@@ -33,7 +33,7 @@ class Mover(object):
             self.accel = Vector.random_2D() * noise(*self.loc)
             self._default_update()
         return cls(
-            Vector(random_uniform(width), random_uniform(height)),
+            Vector(random_uniform(WIDTH), random_uniform(HEIGHT)),
             Vector(random_uniform(2, -2), random_uniform(2, -2)),
             Vector(0, 0),
             update_=update
@@ -45,10 +45,10 @@ class Mover(object):
             self.accel = (Vector(mouse_x, mouse_y) -
                           self.loc).normalize() * 0.5
             self._default_update(check_edges=False)
-            self.loc.x = constrain(self.loc.x, 0, width)
-            self.loc.y = constrain(self.loc.y, 0, height)
+            self.loc.x = constrain(self.loc.x, 0, WIDTH)
+            self.loc.y = constrain(self.loc.y, 0, HEIGHT)
         return cls(
-            Vector(random_uniform(width), random_uniform(height)),
+            Vector(random_uniform(WIDTH), random_uniform(HEIGHT)),
             Vector(random_uniform(2, -2), random_uniform(2, -2)),
             Vector(0, 0),
             update_=update
@@ -81,12 +81,12 @@ class Mover(object):
         self.vel += self.accel
         self.loc += self.vel
         self.vel.limit(10)
-        self.loc.x %= width
-        self.loc.y %= height
+        self.loc.x %= WIDTH
+        self.loc.y %= HEIGHT
 
     def display(self):
-        circle([self.loc.x, self.loc.y], 50, (0.68, 0.68, 0.68, 1))
+        square(self.loc, 50, fill=(0, 1, 0, 1), stroke_weight=10)
 
     def checkEdges(self):
-        self.loc.x %= width
-        self.loc.y %= height
+        self.loc.x %= WIDTH
+        self.loc.y %= HEIGHT
