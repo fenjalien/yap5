@@ -4,7 +4,7 @@ with open('README.md', 'r') as fh:
 
 setuptools.setup(
     name='octo-fenjalien',
-    version='0.2',
+    version='0.3',
     author='fenjalien',
     description="A 2D graphics library.",
     long_description=long_description,

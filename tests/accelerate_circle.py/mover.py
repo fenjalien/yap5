@@ -18,6 +18,7 @@ class Mover(object):
         self.loc = location
         self.vel = velocity
         self.accel = acceleration
+        self.theme = Theme(fill=Color('green'), stroke_weight=10)
 
     @classmethod
     def fromRandom(cls):
@@ -54,29 +55,6 @@ class Mover(object):
             update_=update
         )
 
-    # async def a_update(self):
-    #     await self.a_default_update(self)
-
-    # def update(self):
-    #     self._update(self)
-
-    # def _default_update(self, check_edges=True):
-    #     # self.vel += self.accel
-    #     # self.loc += self.vel
-    #     sum2(self.accel._array, self.vel._array)
-    #     sum2(self.vel._array, self.loc._array)
-    #     self.vel.limit(10)
-    #     if check_edges:
-    #         self.checkEdges()
-
-    # async def a_default_update(self, check_edges=True):
-    #     self.vel += self.accel
-    #     self.loc += self.vel
-    #     self.vel.limit(10)
-    #     if check_edges:
-    #         self.loc.x %= 500
-    #         self.loc.y %= 500
-
     def update(self):
         self.vel += self.accel
         self.loc += self.vel
@@ -85,7 +63,7 @@ class Mover(object):
         self.loc.y %= HEIGHT
 
     def display(self):
-        square(self.loc, 50, fill=(0, 1, 0, 1), stroke_weight=10)
+        circle(self.loc, 50, theme=self.theme)
 
     def checkEdges(self):
         self.loc.x %= WIDTH

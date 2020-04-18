@@ -1,10 +1,23 @@
 import pyglet
 import __main__
+import builtins
 import octo
 import numpy as np
 from pyglet import gl
-# builtins.width = 360
-# builtins.height = 360
+from .color import Color
+
+__all__ = [
+    'run',
+    'size',
+    'clear',
+    'background'
+]
+
+
+builtins.WIDTH = 360
+builtins.HEIGHT = 360
+
+
 
 
 def _dummy(*args, **kwargs):
@@ -34,29 +47,31 @@ def run(sketch_setup=None, sketch_draw=None, sketch_update=None):
         update_method = _dummy
 
     octo.window = pyglet.window.Window(
-        width=octo.WIDTH,
-        height=octo.HEIGHT,
-        visible=False
+        width=builtins.WIDTH,
+        height=builtins.HEIGHT,
+        # visible=False,
+        resizable=True
     )
-    octo.window.on_draw = draw_method
-    pyglet.clock.schedule_interval(update_method, 1/120.0)
 
     setup_method()
     
-    octo.window.set_visible()
+    octo.window.on_draw = draw_method
+    octo.window.on_draw()
+    pyglet.clock.schedule_interval(update_method, 1/120.0)
+    # octo.window.set_visible()
 
     pyglet.app.run()
 
 
 def size(width, height):
-    octo.WIDTH = int(width)
-    octo.HEIGHT = int(height)
-    octo.window.set_size(octo.WIDTH, octo.HEIGHT)
+    builtins.WIDTH = int(width)
+    builtins.HEIGHT = int(height)
+    octo.window.set_size(builtins.WIDTH, builtins.HEIGHT)
 
 
 def clear():
     octo.window.clear()
 
-def background(R, G, B, A=1):
-    pyglet.gl.glClearColor(R, G, B, A)
+def background(color: Color):
+    pyglet.gl.glClearColor(*color.normalized)
     clear()

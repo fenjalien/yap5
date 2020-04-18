@@ -1,4 +1,6 @@
-from .core import run, size, clear, background
-from .shapes import polygon, circle, square
-from .vectors import Vector
-from .octo import WIDTH, HEIGHT
+from .core import *
+from .shapes import *
+from .pmath import *
+from .constants import *
+from .color import *
+from .theme import Theme

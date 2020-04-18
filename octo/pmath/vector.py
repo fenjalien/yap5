@@ -1,14 +1,13 @@
 import numpy as np
-from typing import Union
+from typing import Union, Iterable
+from .utils import isnumeric, dist
 
 EPSILON = 1e-8
 
 
-def isnumeric(obj):
-    return isinstance(obj, int) or isinstance(obj, float)
-
-
 class Vector(object):
+    _array: np.array
+
     def __init__(self, x, y):
         self._array = np.array([x, y], dtype=np.float32)
 
@@ -28,10 +27,12 @@ class Vector(object):
     def y(self, value: float):
         self._array[1] = value
 
-    def __add__(self, other: 'Vector'):
+    def __add__(self, other: Union['Vector', Iterable]):
+        other = self._assure_vector(other)
         return self.__class__(*(self._array + other._array))
 
     def __sub__(self, other: 'Vector'):
+        other = self._assure_vector(other)
         return self.__class__(*(self._array - other._array))
 
     def __mul__(self, other: Union[int, float]):
@@ -79,13 +80,16 @@ class Vector(object):
     __str__ = __repr__
 
     def cross(self, other: 'Vector'):
+        other = self._assure_vector(other)
         return self.__class__(*(np.cross(self._array, other._array)))
 
     def dot(self, other: 'Vector'):
+        other = self._assure_vector(other)
         return self.__class__(*(np.dot(self._array, other._array)))
 
     def distance(self, other: 'Vector'):
-        return np.sqrt(np.sum(self._array - other._array)**2)
+        other = self._assure_vector(other)
+        return dist(self._array, other._array)
 
     dist = distance
 
@@ -105,6 +109,7 @@ class Vector(object):
             dtype=np.float32)
 
     def angle_between(self, other: 'Vector'):
+        other = self._assure_vector(other)
         return np.arccos((self.dot(other)) /
                          (self.magnitude * other.magnitude))
 
@@ -143,6 +148,12 @@ class Vector(object):
     def copy(self):
         return self.__class__(*self._array)
 
+    def _assure_vector(self, x):
+        if isinstance(x, Vector):
+            return x
+        else:
+            return Vector(*x)
+
     @classmethod
     def random(cls):
         return cls(*(2 * (np.random.random(2) - 0.5))).normalize()
@@ -151,4 +162,4 @@ class Vector(object):
     def from_angle(cls, angle):
         vec = cls(0, 1)
         vec.angle = angle
-        return vec
+        return vec.normalize()
