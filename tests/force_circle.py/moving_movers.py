@@ -1,7 +1,7 @@
 import sys
 sys.path.append('D:/code/octo')
 from movers import Mover
-from octo import *
+from yap5 import *
 
 
 # m = Mover()
@@ -12,14 +12,13 @@ wind = Vector(0.01, 0)
 
 def setup():
     size(640, 360)
-    print(Color('gray').normalized)
 
     for m in range(10):
         ms.append(Mover(Vector(10, HEIGHT-10), m+1))
 
 
 def draw():
-    background(1, 1, 1)
+    background(Color('white'))
 
     for m in ms:
         m.draw()

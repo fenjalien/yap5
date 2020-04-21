@@ -1,7 +1,7 @@
 import pyglet
 import __main__
 import builtins
-import octo
+import yap5
 import numpy as np
 from pyglet import gl
 from .color import Color
@@ -46,7 +46,7 @@ def run(sketch_setup=None, sketch_draw=None, sketch_update=None):
     else:
         update_method = _dummy
 
-    octo.window = pyglet.window.Window(
+    yap5.window = pyglet.window.Window(
         width=builtins.WIDTH,
         height=builtins.HEIGHT,
         # visible=False,
@@ -55,10 +55,10 @@ def run(sketch_setup=None, sketch_draw=None, sketch_update=None):
 
     setup_method()
     
-    octo.window.on_draw = draw_method
-    octo.window.on_draw()
+    yap5.window.on_draw = draw_method
+    yap5.window.on_draw()
     pyglet.clock.schedule_interval(update_method, 1/120.0)
-    # octo.window.set_visible()
+    # yap5.window.set_visible()
 
     pyglet.app.run()
 
@@ -66,11 +66,11 @@ def run(sketch_setup=None, sketch_draw=None, sketch_update=None):
 def size(width, height):
     builtins.WIDTH = int(width)
     builtins.HEIGHT = int(height)
-    octo.window.set_size(builtins.WIDTH, builtins.HEIGHT)
+    yap5.window.set_size(builtins.WIDTH, builtins.HEIGHT)
 
 
 def clear():
-    octo.window.clear()
+    yap5.window.clear()
 
 def background(color: Color):
     pyglet.gl.glClearColor(*color.normalized)

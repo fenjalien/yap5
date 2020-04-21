@@ -2,7 +2,10 @@ __all__ = [
 	'RADIUS',
 	'CENTER',
 	'CORNER',
-	'CORNERS'
+	'CORNERS',
+	'NONE',
+	'LOOP',
+	'STRIP'
 ]
 
 # Stroke Cap Properties
@@ -20,6 +23,12 @@ RADIUS = "RADIUS"
 CENTER = "CENTER"
 CORNER = "CORNER"
 CORNERS = "CORNERS"
+
+# Line connection modes
+LOOP = 'LOOP'
+STRIP = 'STRIP'
+NONE = 'NONE'
+
 
 # Colors
 colour_codes = {

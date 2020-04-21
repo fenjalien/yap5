@@ -3,7 +3,7 @@ import pyglet
 from pyglet import gl
 from .pmath import Vector
 from typing import List
-from .constants import CORNER, CENTER, RADIUS, CORNERS
+from .constants import CORNER, CENTER, RADIUS, CORNERS, STRIP, NONE, LOOP
 from .theme import Theme
 
 
@@ -12,7 +12,11 @@ __all__ = [
     'circle',
     'square',
     'rectangle',
-    'point'
+    'point',
+    'points',
+    'line',
+    'lines',
+    'triangle'
 ]
 
 
@@ -46,11 +50,41 @@ def polygon(vertices: List[Vector], theme=Theme()):
                              ('c4f', n_vertices*theme.stroke.normalized))
 
 
-def point(coordinate, theme=Theme(stroke_weight=1)):
-    gl.glPointSize(theme.stroke_weight)
-    pyglet.graphics.draw(1, gl.GL_POINTS,
-                         ('v2f', coordinate._array),
-                         ('c4f', theme.stroke.normalized))
+def points(coordinates, theme=Theme()):
+    vertices = vectors2vertices(coordinates)
+    gl.glPointSize(1)
+    pyglet.graphics.draw(len(coordinates), gl.GL_POINTS,
+                         ('v2f', vertices),
+                         ('c4f', len(coordinates)*theme.stroke.normalized))
+
+
+def point(coordinate, theme=Theme()):
+    points([coordinate], theme=theme)
+
+
+def lines(coordinates, mode=NONE, theme=Theme()):
+    mode = {NONE: gl.GL_LINES, LOOP: gl.GL_LINE_LOOP,
+            STRIP: gl.GL_LINE_STRIP}[mode]
+    vertices = vectors2vertices(coordinates)
+    gl.glLineWidth(theme.stroke_weight)
+    pyglet.graphics.draw(len(coordinates), mode,
+                         ('v2f', vertices),
+                         ('c4f', len(coordinates)*theme.stroke.normalized))
+
+
+def line(p1, p2, theme=Theme()):
+    lines([p1, p2], theme=theme)
+
+
+def triangle(p1, p2, p3, theme=Theme()):
+    vertices = vectors2vertices([p1, p2, p3])
+
+    if theme.fill:
+        pyglet.graphics.draw(3, gl.GL_TRIANGLES,
+                             ('v2f', vertices),
+                             ('c4f', 3*theme.fill.normalized))
+    if theme.stroke:
+        lines([p1, p2, p3], mode=LOOP, theme=theme)
 
 
 circle_n_vertices = 50

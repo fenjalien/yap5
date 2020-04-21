@@ -1,4 +1,4 @@
-from octo import Vector, circle, Theme, Color
+from yap5 import Vector, circle, Theme, Color
 
 
 class Mover(object):
