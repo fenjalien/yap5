@@ -1,6 +1,6 @@
 import sys
 sys.path.append('D:/code/octo')
-from octo import *
+from yap5 import *
 from random import randint
 
 # vs = [Vector(randint(100, 500), randint(100, 500)) for i in range(10)]

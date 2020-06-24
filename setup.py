@@ -3,10 +3,10 @@ with open('README.md', 'r') as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name='octo-fenjalien',
-    version='0.3',
+    name='yap5',
+    version='0.5',
     author='fenjalien',
-    description="A 2D graphics library.",
+    description="Gives simplified drawing bindings to the pyglet library. The main window class is still accessible.",
     long_description=long_description,
     long_description_content_type='text/markdown',
     packages=setuptools.find_packages(),

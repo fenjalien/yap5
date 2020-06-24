@@ -94,10 +94,12 @@ unit_circle = np.array([Vector.from_angle(a) for a in circle_angles])
 
 def circle(coordinate, radius, theme=Theme()):
     vertices = (unit_circle * radius) + coordinate
-    polygon(
-        vertices=vertices,
-        theme=theme
-    )
+    if theme.fill:
+        pyglet.graphics.draw(circle_n_vertices, gl.GL_TRIANGLE_FAN,
+        ('v2f', vectors2vertices(vertices)),
+        ('c4f', circle_n_vertices * theme.fill.normalized))
+    if theme.stroke:
+        lines(vertices, mode=LOOP, theme=theme)
 
 
 def rectangle(coordinate: Vector, *args, mode=CORNER, theme=Theme()):
