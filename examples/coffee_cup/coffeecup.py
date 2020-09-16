@@ -30,7 +30,7 @@ class CoffeCup(object):
             )
 
     def draw(self):
-        if self.points == []:
+        if self.n_points != len(self.points):
             self.calc_points()
 
         line_coordinates = []
